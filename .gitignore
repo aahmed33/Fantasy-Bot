@@ -1,0 +1,21 @@
+# -----------------------------
+# Python
+# -----------------------------
+__pycache__/
+*.py[cod]
+*.pyo
+
+# -----------------------------
+# Virtual Environment
+# -----------------------------
+.venv/
+venv/
+
+# -----------------------------
+# Environment Variables / Keys
+# -----------------------------
+.env
+.env.*
+
+# Keep example environment files
+!.env.example
