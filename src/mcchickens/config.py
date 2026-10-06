@@ -1,0 +1,3 @@
+CURRENT_LEAGUE_ID = "1312242543550828544"
+
+SLEEPER_API_BASE_URL = "https://api.sleeper.app/v1"
