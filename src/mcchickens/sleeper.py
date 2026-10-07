@@ -38,3 +38,21 @@ class SleeperClient:
         """Get all matchups for a particular week."""
 
         return self._get(f"league/{league_id}/matchups/{week}")
+
+    def get_league_history(self, league_id):
+        """
+        Retrieve every season in a league's history by following
+        Sleeper's previous_league_id chain.
+        """
+
+        leagues = []
+        current_league_id = league_id
+
+        while current_league_id:
+            league = self.get_league(current_league_id)
+
+            leagues.append(league)
+
+            current_league_id = league.get("previous_league_id")
+
+        return leagues
