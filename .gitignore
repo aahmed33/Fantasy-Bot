@@ -19,3 +19,8 @@ venv/
 
 # Keep example environment files
 !.env.example
+
+# Local database files
+data/*.db
+data/*.sqlite
+data/*.sqlite3
