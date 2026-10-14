@@ -66,6 +66,26 @@ def create_tables():
             """
         )
 
+        cursor.execute(
+            """
+            CREATE TABLE IF NOT EXISTS matchups (
+                season INTEGER NOT NULL,
+                week INTEGER NOT NULL,
+                roster_id INTEGER NOT NULL,
+                matchup_id INTEGER,
+                points REAL,
+                is_playoff INTEGER NOT NULL DEFAULT 0,
+
+                PRIMARY KEY (season, week, roster_id),
+
+                FOREIGN KEY (season)
+                    REFERENCES seasons(season),
+
+                CHECK (is_playoff IN (0, 1))
+            )
+            """
+        )
+
         connection.commit()
 
     finally:
