@@ -144,9 +144,11 @@ def storylines(games):
 
 
 def report(database_path=None, season=None, include_playoffs=False):
+    from .championships import championship_report
     games = results(database_path, season, include_playoffs)
     return dict(managers=manager_statistics(games),
                 head_to_head=[dict(user_id=a, opponent_id=b, **stats)
                               for (a, b), stats in head_to_head(games).items()],
                 streaks=streaks(games), records=league_records(games), milestones=milestones(games),
-                storylines=storylines(games))
+                storylines=storylines(games),
+                championships=championship_report(database_path, season))

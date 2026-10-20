@@ -91,6 +91,23 @@ def create_tables(database_path=None):
         if "is_complete" not in columns:
             connection.execute("ALTER TABLE matchups ADD COLUMN is_complete INTEGER NOT NULL DEFAULT 0 CHECK (is_complete IN (0, 1))")
         connection.execute("CREATE INDEX IF NOT EXISTS matchup_pairs ON matchups(season, week, matchup_id)")
+        connection.execute("""
+            CREATE TABLE IF NOT EXISTS playoff_snapshots (
+                season INTEGER NOT NULL,
+                digest TEXT NOT NULL,
+                fetched_at TEXT NOT NULL,
+                payload TEXT NOT NULL,
+                PRIMARY KEY (season, digest)
+            )
+        """)
+        connection.execute("""
+            CREATE TABLE IF NOT EXISTS playoff_seasons (
+                season INTEGER PRIMARY KEY,
+                digest TEXT NOT NULL,
+                FOREIGN KEY (season, digest)
+                    REFERENCES playoff_snapshots(season, digest)
+            )
+        """)
         connection.commit()
 
     finally:

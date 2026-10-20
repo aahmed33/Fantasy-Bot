@@ -42,6 +42,12 @@ class SleeperClient:
     def get_nfl_state(self):
         return self._get("state/nfl")
 
+    def get_playoff_bracket(self, league_id, bracket="winners"):
+        """Official bracket results; winners and consolation stay separate."""
+        if bracket not in ("winners", "losers"):
+            raise ValueError("Expected winners or losers bracket")
+        return self._get(f"league/{league_id}/{bracket}_bracket")
+
     def get_league_history(self, league_id):
         """
         Retrieve every season in a league's history by following
