@@ -1,5 +1,34 @@
 # FantasyBot engine progress
 
+## GitHub save checkpoint (2026-10-20)
+
+The user authorized saving completed work only to
+`origin/codex/fantasybot-engine`. Development remains paused; this request is
+for verification and publication of the existing completed implementation.
+No new feature task or live import was started. The completed engine is saved
+in `f3d1419` and `96303cb`, plus this progress-note commit.
+
+Latest full suite rerun: `.venv/Scripts/python.exe -m pytest -q -W error`:
+**49 passed**. Championship and official final-loser Toilet Bowl implementations
+remain verified against actual 2020-2025 McChickens sources, with no missing or
+ambiguous result in those seasons. Regular-season last-place counts remain
+independent. Two previous fresh imports were logically identical. No new
+live-data claim is made by this delivery checkpoint.
+
+Remaining acceptance work: a supplied completed REAL multi-week playoff/Toilet
+Bowl season; none exists in the verified dataset. Other documented limits
+(schedule completeness, orientation uncertainty, manual standings and historical
+ownership reconstruction) remain unchanged. Resume using the commands below,
+without repeating completed implementation or live single-week verification.
+
+The pre-existing empty `AGENTS.md` stays unmodified and untracked. Databases,
+validation backups, credentials, environments, caches and temporary reports are
+excluded. Permanent validation evidence is intentionally committed under docs.
+The original database is not modified. Publication uses an ordinary push of the
+existing development branch only: no main push, merge, force-push, deletion,
+credential change or repository permission change. After publication, verify
+`git rev-parse HEAD` equals `git ls-remote origin refs/heads/codex/fantasybot-engine`.
+
 ## PAUSED - handoff checkpoint (2026-10-20)
 
 Development is paused at the user's request. Do not start new work until the
