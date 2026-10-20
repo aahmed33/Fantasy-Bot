@@ -4,15 +4,15 @@ from .sleeper import SleeperClient
 from .utils import get_team_name
 
 
-def import_league_history():
+def import_league_history(client=None, database_path=None, league_id=CURRENT_LEAGUE_ID):
     """Import all historical league seasons and managers into SQLite."""
 
-    create_tables()
+    create_tables(database_path)
 
-    client = SleeperClient()
-    leagues = client.get_league_history(CURRENT_LEAGUE_ID)
+    client = client or SleeperClient()
+    leagues = client.get_league_history(league_id)
 
-    connection = get_connection()
+    connection = get_connection(database_path)
 
     try:
         cursor = connection.cursor()
@@ -42,6 +42,8 @@ def import_league_history():
                 (season, league_id, league["name"].strip())
             )
 
+            # Refresh ownership snapshots so replaced owners cannot duplicate a roster.
+            cursor.execute("DELETE FROM season_managers WHERE season = ?", (season,))
             for roster in rosters:
                 owner_id = roster.get("owner_id")
                 user = users_by_id.get(owner_id)
@@ -94,6 +96,10 @@ def import_league_history():
                 WHERE sm.user_id = managers.user_id
                 ORDER BY sm.season DESC
                 LIMIT 1
+            )
+            WHERE EXISTS (
+                SELECT 1 FROM season_managers sm
+                WHERE sm.user_id = managers.user_id
             )
             """
         )

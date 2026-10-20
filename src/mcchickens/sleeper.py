@@ -39,6 +39,9 @@ class SleeperClient:
 
         return self._get(f"league/{league_id}/matchups/{week}")
 
+    def get_nfl_state(self):
+        return self._get("state/nfl")
+
     def get_league_history(self, league_id):
         """
         Retrieve every season in a league's history by following
@@ -48,7 +51,11 @@ class SleeperClient:
         leagues = []
         current_league_id = league_id
 
-        while current_league_id:
+        seen = set()
+        while current_league_id and str(current_league_id) != "0":
+            if current_league_id in seen:
+                raise ValueError("Cycle in league history")
+            seen.add(current_league_id)
             league = self.get_league(current_league_id)
 
             leagues.append(league)

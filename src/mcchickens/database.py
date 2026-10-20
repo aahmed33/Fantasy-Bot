@@ -6,12 +6,13 @@ ROOT = Path(__file__).resolve().parents[2]
 DATABASE_PATH = ROOT / "data" / "mcchickens.db"
 
 
-def get_connection():
+def get_connection(database_path=None):
     """Create and return a connection to the McChickens database."""
 
-    DATABASE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    path = Path(database_path) if database_path is not None else DATABASE_PATH
+    path.parent.mkdir(parents=True, exist_ok=True)
 
-    connection = sqlite3.connect(DATABASE_PATH)
+    connection = sqlite3.connect(path)
 
     # Enforce SQLite foreign key constraints.
     connection.execute("PRAGMA foreign_keys = ON")
@@ -19,10 +20,10 @@ def get_connection():
     return connection
 
 
-def create_tables():
+def create_tables(database_path=None):
     """Create the initial McChickens database tables."""
 
-    connection = get_connection()
+    connection = get_connection(database_path)
 
     try:
         cursor = connection.cursor()
@@ -86,6 +87,10 @@ def create_tables():
             """
         )
 
+        columns = {row[1] for row in connection.execute("PRAGMA table_info(matchups)")}
+        if "is_complete" not in columns:
+            connection.execute("ALTER TABLE matchups ADD COLUMN is_complete INTEGER NOT NULL DEFAULT 0 CHECK (is_complete IN (0, 1))")
+        connection.execute("CREATE INDEX IF NOT EXISTS matchup_pairs ON matchups(season, week, matchup_id)")
         connection.commit()
 
     finally:

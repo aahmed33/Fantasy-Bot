@@ -4,6 +4,12 @@
 __pycache__/
 *.py[cod]
 *.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
 
 # -----------------------------
 # Virtual Environment
@@ -19,8 +25,25 @@ venv/
 
 # Keep example environment files
 !.env.example
+.aws/
+.credentials/
+credentials.json
+credentials.*.json
+service-account*.json
+secrets/
+secrets.json
+secrets.*.json
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa
+id_ed25519
 
 # Local database files
-data/*.db
-data/*.sqlite
-data/*.sqlite3
+*.db
+*.sqlite
+*.sqlite3
+*.db-*
+*.sqlite-*
+*.sqlite3-*
